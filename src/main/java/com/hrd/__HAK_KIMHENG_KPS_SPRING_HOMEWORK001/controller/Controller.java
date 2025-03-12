@@ -17,13 +17,13 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/v1/tickets")
+@RequestMapping
 public class Controller {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     static int i = 0;
     ArrayList<Ticket> listTicket = new ArrayList<>();
 
-    @GetMapping
+    @GetMapping("/api/v1/tickets")
     @Operation(summary = "Get All Tickets")
     public ResponseEntity<APIResponseListTicket<List<Ticket>>> getAllTickets(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
         if ((page != null && page <= 0) || (size != null && size <= 0)) {
@@ -53,7 +53,7 @@ public class Controller {
         }
     }
 
-    @PutMapping
+    @PutMapping("/api/v1/tickets")
     @Operation(summary = "Bulk Update Payment Status For Multiple Tickets")
     public ResponseEntity<APIResponseListTicket<List<Ticket>>> updatePayment(@RequestBody UpdatePaymentRequest request) {
         List<Ticket> updatedTickets = new ArrayList<>();
@@ -76,7 +76,8 @@ public class Controller {
                 HttpStatus.OK
         );
     }
-    @PostMapping
+
+    @PostMapping("/api/v1/tickets")
     @Operation(summary = "Create a new Ticket")
     public ResponseEntity<APIResponseListTicket<Ticket>>  addTicket(@RequestBody CreateTicketReqDto createTicketReqDto) {
         Ticket ticket;
@@ -109,9 +110,9 @@ public class Controller {
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/v1/tickets/{ticket-id}")
     @Operation(summary = "Get a Ticket by Id")
-    public ResponseEntity<APIResponseListTicket<List<Ticket>>> getTicketById(@RequestParam int id){
+    public ResponseEntity<APIResponseListTicket<List<Ticket>>> getTicketById(@RequestParam("Ticket-id") int id){
         List<Ticket> ticket = new ArrayList<>();
         for (Ticket t : listTicket) {
             if (t.getTicketId() == id) {
@@ -122,7 +123,8 @@ public class Controller {
         return new ResponseEntity<>(new APIResponseListTicket<>(false, "Ticket not found", HttpStatus.NOT_FOUND, null, LocalDate.now()), HttpStatus.NOT_FOUND);
 
     }
-    @PutMapping("/{id}")
+
+    @PutMapping("/api/v1/tickets/{ticket-id}")
     @Operation(summary = "Update an existing Ticket by Id")
     public ResponseEntity<APIResponseListTicket<Ticket>> updateById(@RequestParam int id , @RequestBody CreateTicketReqDto createTicketReqDto) {
         for (Ticket t : listTicket) {
@@ -145,7 +147,8 @@ public class Controller {
                 new APIResponseListTicket<>(false, "Ticket not found", HttpStatus.NOT_FOUND, null, LocalDate.now()),
                 HttpStatus.NOT_FOUND);
     }
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("(/api/v1/tickets/{ticket-id}")
     @Operation(summary = "Delete a Ticket by Id")
     public ResponseEntity<APIResponseListTicket<Ticket>> deleteTicketById (@RequestParam int id){
         for (Ticket t : listTicket){
@@ -163,7 +166,7 @@ public class Controller {
         );
     }
 
-    @PostMapping("/bulk")
+    @PostMapping("/api/v1/tickets/bulk")
     @Operation(summary = "Bulk Create Ticket")
     public ResponseEntity<APIResponseListTicket<List<Ticket>>> addBulkTicket(@RequestBody List<CreateTicketReqDto> createTicketReqDtoList){
         List<Ticket> list = new ArrayList<>();
