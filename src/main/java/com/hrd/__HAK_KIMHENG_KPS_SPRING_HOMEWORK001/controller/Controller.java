@@ -137,7 +137,7 @@ public class Controller {
                 t.setTicketStatus(createTicketReqDto.getTicketStatus());
                 t.setSeatNumber(createTicketReqDto.getSeatNumber());
                 return new ResponseEntity<>(
-                        new APIResponseListTicket<>(true, "successful", HttpStatus.OK, t, LocalDate.now()),
+                        new APIResponseListTicket<>(true, "Successful", HttpStatus.OK, t, LocalDate.now()),
                         HttpStatus.OK);
             }
         }
